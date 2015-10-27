@@ -13,13 +13,12 @@ public class matrix {
 		}
 	}
 	
-	public static int[][] fillMatrix(int[][] matrix) {
+	public static void fillMatrix(int[][] matrix) {
 		for(int i = 0; i < matrix.length; i++) {
 			for(int j = 0; j < matrix[i].length; j++) {
 				matrix[i][j] = (int)(Math.random()*10);
 			}
 		}
-	return matrix;
 	}
 	
 	public static int[][] multiplyMatrix(int[][] A, int[][] B) {
@@ -56,8 +55,8 @@ public class matrix {
 		matrixB = new int[rowsB][colsB];
 		matrixC = new int[rowsA][colsB];
 		
-		matrixA = fillMatrix(matrixA);
-		matrixB = fillMatrix(matrixB);
+		fillMatrix(matrixA);
+		fillMatrix(matrixB);
 		
 		System.out.println("1st matrix:");
 		displayMatrix(matrixA);
