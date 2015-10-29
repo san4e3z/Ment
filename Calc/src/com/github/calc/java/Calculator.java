@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Calculator {
 
-	public static void display(double first, double second, String act, double res) {
+	private static void display(double first, double second, String act, double res) {
 		
 		System.out.println(first + " " + act + " " + second + " = " + res);
 		
@@ -17,36 +17,36 @@ public class Calculator {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Input the 1st argument");
-		double first_var = sc.nextDouble();
+		double firstVar = sc.nextDouble();
 		
 		System.out.println("Input the 2nd argument");
-		double second_var = sc.nextDouble();
+		double secondVar = sc.nextDouble();
 		
 		System.out.println("Input the action (+,-,*,/)");
 		String action = sc.next();
 		
-		if ((second_var == 0) && (action.equals("/"))) {
+		if ((secondVar == 0) && (action.equals("/"))) {
 			System.out.println("Division by zero");
 		} else
 		{
 			switch (action) {
 			case "+":
-				result = first_var + second_var;;
+				result = firstVar + secondVar;;
 				break;
 			case "-":
-				result = first_var - second_var;
+				result = firstVar - secondVar;
 				break;
 			case "*":
-				result = first_var * second_var;
+				result = firstVar * secondVar;
 				break;
 			case "/":
-				result = first_var / second_var;
+				result = firstVar / secondVar;
 					break;
 			default:
 				System.out.println("Wrong input");
 				return;
 			}
-			display(first_var, second_var, action, result);
+			display(firstVar, secondVar, action, result);
 		}
 	}
 }

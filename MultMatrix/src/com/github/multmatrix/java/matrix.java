@@ -2,9 +2,9 @@ package com.github.multmatrix.java;
 
 import java.util.Scanner;
 
-public class matrix {
+public class Matrix {
 	
-	public static void displayMatrix (int[][] matrix) {
+	private static void displayMatrix (int[][] matrix) {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				System.out.print(matrix[i][j] + "\t");
@@ -13,7 +13,7 @@ public class matrix {
 		}
 	}
 	
-	public static void fillMatrix(int[][] matrix) {
+	private static void fillMatrix(int[][] matrix) {
 		for(int i = 0; i < matrix.length; i++) {
 			for(int j = 0; j < matrix[i].length; j++) {
 				matrix[i][j] = (int)(Math.random()*10);
@@ -21,7 +21,7 @@ public class matrix {
 		}
 	}
 	
-	public static int[][] multiplyMatrix(int[][] A, int[][] B) {
+	private static int[][] multiplyMatrix(int[][] A, int[][] B) {
 		
 	    int[][] C;
 	    C = new int[A.length][B[0].length];
