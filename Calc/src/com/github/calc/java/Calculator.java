@@ -16,37 +16,43 @@ public class Calculator {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Input the 1st argument");
-		double firstVar = sc.nextDouble();
-		
-		System.out.println("Input the 2nd argument");
-		double secondVar = sc.nextDouble();
-		
-		System.out.println("Input the action (+,-,*,/)");
-		String action = sc.next();
-		
-		if ((secondVar == 0) && (action.equals("/"))) {
-			System.out.println("Division by zero");
-		} else
-		{
-			switch (action) {
-			case "+":
-				result = firstVar + secondVar;;
-				break;
-			case "-":
-				result = firstVar - secondVar;
-				break;
-			case "*":
-				result = firstVar * secondVar;
-				break;
-			case "/":
-				result = firstVar / secondVar;
+		while (true) {
+			
+			System.out.println("Input the 1st argument");
+			double firstVar = sc.nextDouble();
+			
+			System.out.println("Input the 2nd argument");
+			double secondVar = sc.nextDouble();
+			
+			System.out.println("Input the action (+,-,*,/, enter 'Exit' to quit)");
+			String action = sc.next();
+			
+			if ((secondVar == 0) && (action.equals("/"))) {
+				System.out.println("Division by zero");
+				continue;
+			} else
+			{
+				switch (action) {
+				case "+":
+					result = firstVar + secondVar;;
 					break;
-			default:
-				System.out.println("Wrong input");
-				return;
+				case "-":
+					result = firstVar - secondVar;
+					break;
+				case "*":
+					result = firstVar * secondVar;
+					break;
+				case "/":
+					result = firstVar / secondVar;
+					break;
+				case "Exit":
+					return;
+				default:
+					System.out.println("Wrong input");
+					continue;
+				}
+				display(firstVar, secondVar, action, result);
 			}
-			display(firstVar, secondVar, action, result);
 		}
 	}
 }
