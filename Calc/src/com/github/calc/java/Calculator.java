@@ -13,10 +13,11 @@ public class Calculator {
 	public static void main(String[] args) {
 		
 		double result = 0;
+		boolean next = true;
 		
 		Scanner sc = new Scanner(System.in);
 		
-		while (true) {
+		while (next) {
 			
 			System.out.println("Input the 1st argument");
 			double firstVar = sc.nextDouble();
@@ -30,8 +31,10 @@ public class Calculator {
 			if ((secondVar == 0) && (action.equals("/"))) {
 				System.out.println("Division by zero");
 				continue;
-			} else
-			{
+				}
+			else if(action.toLowerCase().equals("exit")) {
+				next = false;
+			} else {
 				switch (action) {
 				case "+":
 					result = firstVar + secondVar;;
@@ -45,8 +48,6 @@ public class Calculator {
 				case "/":
 					result = firstVar / secondVar;
 					break;
-				case "Exit":
-					return;
 				default:
 					System.out.println("Wrong input");
 					continue;
