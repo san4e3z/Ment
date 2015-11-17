@@ -1,6 +1,13 @@
 package com.gitnub.company;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -24,7 +31,7 @@ public class MyAirCompany implements AirCompany {
 		this.numberOfPlanes = size;
 		fillAirCompany(nameOfCompany, numberOfPlanes);	
 	}
-	
+		
 	@Override
 	public void addPlane(Plane plane) {
 		planes.add(plane);	
@@ -93,7 +100,6 @@ public class MyAirCompany implements AirCompany {
 	@Override
 	public void sortPlanes() {
 		planes.sort(null);
-		
 	}
 
 	public void findPlaneByFlightRange() {
@@ -103,6 +109,51 @@ public class MyAirCompany implements AirCompany {
 		int secondVar = sc.nextInt();
 		this.findPlane(firstVar, secondVar);
 		sc.close();	
+	}
+
+	//Work with files (Task 3.2)
+
+	public void saveFile(String path) {
+		File file = new File(path); 
+	    try {
+	        if(!file.exists()){
+	            file.createNewFile();
+	        }
+	        PrintWriter out = new PrintWriter(file.getAbsoluteFile());
+	        try {
+	        	for(Plane plane : planes) {
+	        		out.println(plane.getName() + ";" + plane.getCapacity() + ";" + plane.get—arryingCapacity() + ";" + plane.getFlightRange());
+	        	}
+	        } finally {
+	        	out.close();
+	        }
+	    } catch(IOException e) {
+	    	throw new RuntimeException(e);
+	    }
+	}
+
+	public void loadFile(String path) throws IOException {
+		//deleteList(planes);
+
+	    FileReader reader = new FileReader(path);
+	    BufferedReader buffReader = new BufferedReader(reader);
+	    String line = buffReader.readLine();
+	    while(line != null) {
+	    	String[] part = line.split(";");
+	    	addPlane(new Plane(part[0], Integer.parseInt(part[1]), Integer.parseInt(part[2]), Integer.parseInt(part[3])));
+	    	line = buffReader.readLine();
+	    }
+	    buffReader.close();
+	    reader.close();
+	}
+	
+	//delete list of planes before load new list from file
+	public static void deleteList(ArrayList<Plane> nonEmptyList) {
+		Iterator<Plane> iter = nonEmptyList.iterator();
+		while(iter.hasNext()){
+			iter.next();
+			iter.remove();
+		}
 	}
 
 }

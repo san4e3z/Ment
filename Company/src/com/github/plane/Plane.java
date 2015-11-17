@@ -18,7 +18,7 @@ public class Plane implements Comparable {
 	
 	@Override
 	public String toString() {
-		return "Plane ( " + name + " , " + capacity + " peoples " + carryingCapacity + " kg " + flightRange + " km )";
+		return "Plane ( " + name + " " + capacity + " peoples " + carryingCapacity + " kg " + flightRange + " km )";
 	}
 	
 	@Override
@@ -53,6 +53,10 @@ public class Plane implements Comparable {
 	public void setFlightRange(int flightRange) {
 		this.flightRange = flightRange;
 	}
-
-
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 }
