@@ -9,6 +9,6 @@ public interface AirCompany {
 	public void findPlane(int minFlightRange, int maxFlightRange);
 	public void sortPlanes();
 	public void addPlane (Plane plane);
-	public void fillAirCompany(String name, int count);
+	public void fillAirCompany();
 
 }

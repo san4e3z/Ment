@@ -26,10 +26,13 @@ public class MyAirCompany implements AirCompany {
 	private int numberOfPlanes;
 	private ArrayList<Plane> planes = new ArrayList<Plane>();
 	
-	public MyAirCompany (String name, int size) {
-		this.nameOfCompany = name;
-		this.numberOfPlanes = size;
-		fillAirCompany(nameOfCompany, numberOfPlanes);	
+	Scanner scan = new Scanner(System.in);
+	
+	public void createAirCompany () {
+		System.out.println("Input name and count of planes for the new air company");
+		nameOfCompany = scan.next();
+		numberOfPlanes = scan.nextInt();
+		fillAirCompany();
 	}
 		
 	@Override
@@ -49,10 +52,10 @@ public class MyAirCompany implements AirCompany {
 		}
 	}
 
-	public void fillAirCompany(String name, int count) {
+	public void fillAirCompany() {
 		Random rand = new Random();
-		for (int i = 0; i < count; i++) {
-			String nameOfPlane = name.concat(Integer.toString(rand.nextInt(SIZEOFRANDOMARG1)));
+		for (int i = 0; i < numberOfPlanes; i++) {
+			String nameOfPlane = nameOfCompany.concat(Integer.toString(rand.nextInt(SIZEOFRANDOMARG1)));
 			
 			if (rand.nextInt(TYPEOFPLANE) == 1) {
 				int randArg = rand.nextInt(SIZEOFRANDOMARG1);
@@ -104,11 +107,9 @@ public class MyAirCompany implements AirCompany {
 
 	public void findPlaneByFlightRange() {
 		System.out.println("\nInput flight range interval for search");
-		Scanner sc = new Scanner(System.in);
-		int firstVar = sc.nextInt();
-		int secondVar = sc.nextInt();
-		this.findPlane(firstVar, secondVar);
-		sc.close();	
+		int firstVar = scan.nextInt();
+		int secondVar = scan.nextInt();
+		this.findPlane(firstVar, secondVar);	
 	}
 
 	//Work with files (Task 3.2)
@@ -133,7 +134,7 @@ public class MyAirCompany implements AirCompany {
 	}
 
 	public void loadFile(String path) throws IOException {
-		//deleteList(planes);
+		//deleteListOfAllPlanes(planes);
 
 	    FileReader reader = new FileReader(path);
 	    BufferedReader buffReader = new BufferedReader(reader);
@@ -148,7 +149,7 @@ public class MyAirCompany implements AirCompany {
 	}
 	
 	//delete list of planes before load new list from file
-	public static void deleteList(ArrayList<Plane> nonEmptyList) {
+	public static void deleteListOfAllPlanes(ArrayList<Plane> nonEmptyList) {
 		Iterator<Plane> iter = nonEmptyList.iterator();
 		while(iter.hasNext()){
 			iter.next();
