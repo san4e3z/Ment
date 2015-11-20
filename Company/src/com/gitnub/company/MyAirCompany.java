@@ -2,20 +2,21 @@ package com.gitnub.company;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
 import com.github.plane.Plane;
 import com.github.plane.PassengerPlane;
 import com.github.plane.CargoPlane;
+import com.github.exceptions.*;
 
-public class MyAirCompany implements AirCompany {
+public class MyAirCompany implements AirCompany  {
 	
 	final static int TYPEOFPLANE = 2;
 	final static int SIZEOFRANDOMARG1 = 100;
@@ -28,11 +29,20 @@ public class MyAirCompany implements AirCompany {
 	
 	Scanner scan = new Scanner(System.in);
 	
-	public void createAirCompany () {
+	public void createAirCompany () throws SizeOfCompanyException {
 		System.out.println("Input name and count of planes for the new air company");
 		nameOfCompany = scan.next();
-		numberOfPlanes = scan.nextInt();
-		fillAirCompany();
+		//built-in exception
+		try {
+			numberOfPlanes = scan.nextInt();
+		} catch(NoSuchElementException  ex1) {
+			System.out.println("You don't enter numeric values");
+		}
+		if (numberOfPlanes > 0) {
+			fillAirCompany();			
+		} else {
+			throw new SizeOfCompanyException();
+		}
 	}
 		
 	@Override
@@ -40,9 +50,13 @@ public class MyAirCompany implements AirCompany {
 		planes.add(plane);	
 	}
 	
-	public void printPlaneInfo() {
-		for (Plane iteratorPlane : planes) {
-			System.out.println(iteratorPlane.toString());
+	public void printPlaneInfo() throws PrintListOfPlanesException {
+		if (planes.size() != 0) {
+			for (Plane iteratorPlane : planes) {
+				System.out.println(iteratorPlane.toString());
+			}
+		} else {
+			throw new PrintListOfPlanesException();			
 		}
 	}
 	
@@ -84,20 +98,32 @@ public class MyAirCompany implements AirCompany {
 		}
 		return total;
 	}
+	
+	public int avegageCapacity() {
+		int avegage = 0;
+		//built-in exception
+		try {
+			avegage = totalCapacity()/numberOfPlanes;		
+		} catch (ArithmeticException ex5) {
+			System.out.println("division by zero");
+		}
+		return avegage;
+		
+	}
 
 	@Override
-	public void findPlane(int minFlightRange, int maxFlightRange) {
+	public void findPlane (int minFlightRange, int maxFlightRange) throws FindByFlightRangeException {
 		ArrayList<Plane> result = new ArrayList<Plane>();   
         for(Plane plane : planes){
         	if (plane.getFlightRange() >=  minFlightRange && plane.getFlightRange() <= maxFlightRange) {
                     result.add(plane);
             }
-        }
+        }    
         if (result.size() != 0)  {
         	planesInfoPrint(result);
         } else {
-        	System.out.println("Planes with flight range [ " + minFlightRange + " ; " + maxFlightRange + " ] are absent");
-        }
+        	throw new FindByFlightRangeException(minFlightRange, maxFlightRange);
+        }      
 	}
 
 	@Override
@@ -105,15 +131,29 @@ public class MyAirCompany implements AirCompany {
 		planes.sort(null);
 	}
 
-	public void findPlaneByFlightRange() {
+	public void findPlaneByFlightRange() throws FindByFlightRangeException {
 		System.out.println("\nInput flight range interval for search");
-		int firstVar = scan.nextInt();
-		int secondVar = scan.nextInt();
-		this.findPlane(firstVar, secondVar);	
+		int firstVar = 0;
+		int secondVar = 0;
+		//built-in exception
+		try {
+			firstVar = scan.nextInt();
+			secondVar = scan.nextInt();
+		} catch(NoSuchElementException  ex1) {
+			System.out.println("You don't enter numeric values");
+		}
+		
+		this.findPlane(firstVar, secondVar);
 	}
-
-	//Work with files (Task 3.2)
-
+	
+	public void deleteListOfAllPlanes() {
+		Iterator<Plane> iter = planes.iterator();
+		while(iter.hasNext()){
+			iter.next();
+			iter.remove();
+		}
+	}
+	
 	public void saveFile(String path) {
 		File file = new File(path); 
 	    try {
@@ -128,8 +168,8 @@ public class MyAirCompany implements AirCompany {
 	        } finally {
 	        	out.close();
 	        }
-	    } catch(IOException e) {
-	    	throw new RuntimeException(e);
+	    } catch(IOException ex4) {
+	    	throw new RuntimeException(ex4);
 	    }
 	}
 
@@ -140,21 +180,18 @@ public class MyAirCompany implements AirCompany {
 	    BufferedReader buffReader = new BufferedReader(reader);
 	    String line = buffReader.readLine();
 	    while(line != null) {
-	    	String[] part = line.split(";");
-	    	addPlane(new Plane(part[0], Integer.parseInt(part[1]), Integer.parseInt(part[2]), Integer.parseInt(part[3])));
+	    	//built-in exception
+	    	try {
+	    		String[] part = line.split(";");
+	    		addPlane(new Plane(part[0], Integer.parseInt(part[1]), Integer.parseInt(part[2]), Integer.parseInt(part[3])));
+	    	} catch (ArrayIndexOutOfBoundsException ex2) {
+	    		System.out.println("Deficiency of information in the row");
+	    	} catch (NumberFormatException ex3) {
+	    		System.out.println("Non numerical information in the row");
+	    	}
 	    	line = buffReader.readLine();
 	    }
 	    buffReader.close();
 	    reader.close();
 	}
-	
-	//delete list of planes before load new list from file
-	public static void deleteListOfAllPlanes(ArrayList<Plane> nonEmptyList) {
-		Iterator<Plane> iter = nonEmptyList.iterator();
-		while(iter.hasNext()){
-			iter.next();
-			iter.remove();
-		}
-	}
-
 }
