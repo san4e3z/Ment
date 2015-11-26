@@ -13,10 +13,10 @@ import com.github.plane.Plane;
 
 public class SQLiteStorage implements Storage {
 	
-	public Connection conn;
-	public Statement statmt;
-	public PreparedStatement prep;
-	public ResultSet resSet;
+	private Connection conn;
+	private Statement statmt;
+	private PreparedStatement prep;
+	private ResultSet resSet;
 	
 	public void connect() throws ClassNotFoundException, SQLException {
 		conn = null;
@@ -57,7 +57,6 @@ public class SQLiteStorage implements Storage {
 		//statmt.close();
 	}
 	
-	
 	@Override
 	public ArrayList<Plane> loadFromStorage(ArrayList<Plane> ListForDB) throws SQLException {
 		resSet = statmt.executeQuery("select * from T_PLANES;");
@@ -75,5 +74,13 @@ public class SQLiteStorage implements Storage {
 		for (Plane iteratorPlane : listOfPlanes) {
 			insert(iteratorPlane.getName(), iteratorPlane.getCapacity(), iteratorPlane.get—arryingCapacity(), iteratorPlane.getFlightRange());
 		}
+	}
+
+	public void updateCapacity(int oldArg, int newArg) throws SQLException {
+		prep = conn.prepareStatement("update T_PLANES set capacity = ? where capacity = ?;");
+		prep.setInt(1, newArg);
+		prep.setInt(2, oldArg);
+		prep.executeUpdate();
+		prep.close();
 	}
 }

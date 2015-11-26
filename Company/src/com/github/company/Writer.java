@@ -39,5 +39,11 @@ public class Writer {
 		sqlite.closeDB();
 	}
 
+	public void updateCapValue(int newArg, int oldArg) throws ClassNotFoundException, SQLException {
+		sqlite.connect();
+		sqlite.updateCapacity(newArg, oldArg);
+		sqlite.closeDB();
+	}
+
 
 }

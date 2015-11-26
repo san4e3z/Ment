@@ -59,17 +59,16 @@ public class MyAirCompany implements AirCompany  {
 		read.outputXMLFile();
 	}
 	
+	public void changeValueCapacity(int oldArg, int newArg) throws ClassNotFoundException, SQLException {
+		write.updateCapValue(oldArg, newArg);
+	}
+	
 	public void createAirCompany (int size, String name) {
 		this.numberOfPlanes = size;
 		this.nameOfCompany = name;
 		fillAirCompany();	
 	}
 		
-	@Override
-	public void addPlane(Plane plane) {
-		planes.add(plane);	
-	}
-	
 	public void printPlaneInfo() throws PrintListOfPlanesException {
 		if (planes.size() != 0) {
 			for (Plane iteratorPlane : planes) {
@@ -100,24 +99,6 @@ public class MyAirCompany implements AirCompany  {
 			}
 		}		
 	}
-
-	@Override
-	public int totalCapacity() {
-		int total = 0;
-		for (Plane iteratorPlane : planes) {
-			total+= iteratorPlane.getCapacity();
-		}
-		return total;
-	}
-	
-	@Override
-	public int totalÑarryingCapacity() {
-		int total = 0;
-		for (Plane iteratorPlane : planes) {
-			total+= iteratorPlane.getÑarryingCapacity();
-		}
-		return total;
-	}
 	
 	public int avegageCapacity() {
 		int avegage = 0;
@@ -128,26 +109,6 @@ public class MyAirCompany implements AirCompany  {
 			System.out.println("division by zero");
 		}
 		return avegage;	
-	}
-
-	@Override
-	public void findPlane (int minFlightRange, int maxFlightRange) throws FindByFlightRangeException {
-		ArrayList<Plane> result = new ArrayList<Plane>();   
-        for(Plane plane : planes){
-        	if (plane.getFlightRange() >=  minFlightRange && plane.getFlightRange() <= maxFlightRange) {
-                    result.add(plane);
-            }
-        }    
-        if (result.size() != 0)  {
-        	planesInfoPrint(result);
-        } else {
-        	throw new FindByFlightRangeException(minFlightRange, maxFlightRange);
-        }    
-	}
-
-	@Override
-	public void sortPlanes() {
-		planes.sort(null);
 	}
 
 	public void findPlaneByFlightRange() throws FindByFlightRangeException {
@@ -173,4 +134,48 @@ public class MyAirCompany implements AirCompany  {
 			iter.remove();
 		}
 	}
+	
+	@Override
+	public void addPlane(Plane plane) {
+		planes.add(plane);	
+	}
+
+	@Override
+	public int totalCapacity() {
+		int total = 0;
+		for (Plane iteratorPlane : planes) {
+			total+= iteratorPlane.getCapacity();
+		}
+		return total;
+	}
+	
+	@Override
+	public int totalÑarryingCapacity() {
+		int total = 0;
+		for (Plane iteratorPlane : planes) {
+			total+= iteratorPlane.getÑarryingCapacity();
+		}
+		return total;
+	}
+	
+	@Override
+	public void findPlane (int minFlightRange, int maxFlightRange) throws FindByFlightRangeException {
+		ArrayList<Plane> result = new ArrayList<Plane>();   
+        for(Plane plane : planes){
+        	if (plane.getFlightRange() >=  minFlightRange && plane.getFlightRange() <= maxFlightRange) {
+                    result.add(plane);
+            }
+        }    
+        if (result.size() != 0)  {
+        	planesInfoPrint(result);
+        } else {
+        	throw new FindByFlightRangeException(minFlightRange, maxFlightRange);
+        }    
+	}
+
+	@Override
+	public void sortPlanes() {
+		planes.sort(null);
+	}
+	
 }
