@@ -1,10 +1,7 @@
-package com.gitnub.company;
+package com.github.company;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -15,34 +12,57 @@ import com.github.plane.Plane;
 import com.github.plane.PassengerPlane;
 import com.github.plane.CargoPlane;
 import com.github.exceptions.*;
+import com.github.company.Reader;
 
 public class MyAirCompany implements AirCompany  {
 	
+	//Parameters for random creation
 	final static int TYPEOFPLANE = 2;
 	final static int SIZEOFRANDOMARG1 = 100;
 	final static int SIZEOFRANDOMARG2 = 10;
 	final static int MINVALUE = 10000;
 	
+	final static String PATH = "Planes.txt";
+	
 	private String nameOfCompany;
 	private int numberOfPlanes;
 	private ArrayList<Plane> planes = new ArrayList<Plane>();
 	
-	Scanner scan = new Scanner(System.in);
+	Reader read = new Reader();
+	Writer write = new Writer();
 	
-	public void createAirCompany () throws SizeOfCompanyException {
-		System.out.println("Input name and count of planes for the new air company");
-		nameOfCompany = scan.next();
-		//built-in exception
-		try {
-			numberOfPlanes = scan.nextInt();
-		} catch(NoSuchElementException  ex1) {
-			System.out.println("You don't enter numeric values");
-		}
-		if (numberOfPlanes > 0) {
-			fillAirCompany();			
-		} else {
-			throw new SizeOfCompanyException();
-		}
+	public ArrayList<Plane> fillAirCompanyListFromXML(){
+		planes = read.loadXML(planes);
+		return planes;
+	}
+	
+	public ArrayList<Plane> fillAirCompanyListFromFile() throws IOException {
+		planes = read.loadFile(planes, PATH);
+		return planes;
+	}
+	
+	public ArrayList<Plane> fillAirCompanyListFromDB() throws ClassNotFoundException, SQLException {
+		planes = read.loadSQLite(planes);
+		return planes;
+	}
+	
+	public void savePlanesFile() {
+		write.saveFile(planes, PATH);
+	}
+	
+	public void savePlanesDb() throws ClassNotFoundException, SQLException {
+		write.saveDb(planes);
+	}
+	
+	//Output of xml file
+	public void printStructureOfXMLDoc () {
+		read.outputXMLFile();
+	}
+	
+	public void createAirCompany (int size, String name) {
+		this.numberOfPlanes = size;
+		this.nameOfCompany = name;
+		fillAirCompany();	
 	}
 		
 	@Override
@@ -107,8 +127,7 @@ public class MyAirCompany implements AirCompany  {
 		} catch (ArithmeticException ex5) {
 			System.out.println("division by zero");
 		}
-		return avegage;
-		
+		return avegage;	
 	}
 
 	@Override
@@ -123,7 +142,7 @@ public class MyAirCompany implements AirCompany  {
         	planesInfoPrint(result);
         } else {
         	throw new FindByFlightRangeException(minFlightRange, maxFlightRange);
-        }      
+        }    
 	}
 
 	@Override
@@ -132,6 +151,7 @@ public class MyAirCompany implements AirCompany  {
 	}
 
 	public void findPlaneByFlightRange() throws FindByFlightRangeException {
+		Scanner scan = new Scanner(System.in);
 		System.out.println("\nInput flight range interval for search");
 		int firstVar = 0;
 		int secondVar = 0;
@@ -142,8 +162,8 @@ public class MyAirCompany implements AirCompany  {
 		} catch(NoSuchElementException  ex1) {
 			System.out.println("You don't enter numeric values");
 		}
-		
 		this.findPlane(firstVar, secondVar);
+		scan.close();
 	}
 	
 	public void deleteListOfAllPlanes() {
@@ -152,46 +172,5 @@ public class MyAirCompany implements AirCompany  {
 			iter.next();
 			iter.remove();
 		}
-	}
-	
-	public void saveFile(String path) {
-		File file = new File(path); 
-	    try {
-	        if(!file.exists()){
-	            file.createNewFile();
-	        }
-	        PrintWriter out = new PrintWriter(file.getAbsoluteFile());
-	        try {
-	        	for(Plane plane : planes) {
-	        		out.println(plane.getName() + ";" + plane.getCapacity() + ";" + plane.get—arryingCapacity() + ";" + plane.getFlightRange());
-	        	}
-	        } finally {
-	        	out.close();
-	        }
-	    } catch(IOException ex4) {
-	    	throw new RuntimeException(ex4);
-	    }
-	}
-
-	public void loadFile(String path) throws IOException {
-		//deleteListOfAllPlanes(planes);
-
-	    FileReader reader = new FileReader(path);
-	    BufferedReader buffReader = new BufferedReader(reader);
-	    String line = buffReader.readLine();
-	    while(line != null) {
-	    	//built-in exception
-	    	try {
-	    		String[] part = line.split(";");
-	    		addPlane(new Plane(part[0], Integer.parseInt(part[1]), Integer.parseInt(part[2]), Integer.parseInt(part[3])));
-	    	} catch (ArrayIndexOutOfBoundsException ex2) {
-	    		System.out.println("Deficiency of information in the row");
-	    	} catch (NumberFormatException ex3) {
-	    		System.out.println("Non numerical information in the row");
-	    	}
-	    	line = buffReader.readLine();
-	    }
-	    buffReader.close();
-	    reader.close();
 	}
 }

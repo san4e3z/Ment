@@ -1,4 +1,4 @@
-package com.gitnub.company;
+package com.github.company;
 
 import com.github.exceptions.*;
 import com.github.plane.Plane;

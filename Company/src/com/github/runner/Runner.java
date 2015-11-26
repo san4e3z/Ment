@@ -1,28 +1,26 @@
 package com.github.runner;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import com.github.company.MyAirCompany;
 import com.github.exceptions.*;
-import com.gitnub.company.MyAirCompany;
 
 public class Runner {
 
-	public static void main(String[] args) throws SizeOfCompanyException, IOException {
+	public static void main(String[] args) throws SizeOfCompanyException, PrintListOfPlanesException, IOException, ClassNotFoundException, SQLException {
+	
+		MyAirCompany firstCompany = new MyAirCompany();
+		firstCompany.fillAirCompanyListFromXML();
+		firstCompany.printPlaneInfo();
+		firstCompany.printStructureOfXMLDoc();
 		
-		final String PATH = "ListOfPlanes"; 
-		
-		MyAirCompany Company = new MyAirCompany();
-		Company.createAirCompany();
-		Company.saveFile(PATH);
-		
-		MyAirCompany anotherCompany = new MyAirCompany();
-		anotherCompany.createAirCompany();
-		anotherCompany.loadFile(PATH);
-		try {
-			anotherCompany.printPlaneInfo();
-		} catch (PrintListOfPlanesException e) {
-			e.printStackTrace();
-		}
-	}
+		MyAirCompany secondCompany = new MyAirCompany();
+		secondCompany.createAirCompany(2, "RyanAir");
+		secondCompany.savePlanesDb();
+		secondCompany.fillAirCompanyListFromDB();
+		secondCompany.printPlaneInfo();
 
+	}
 }
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company>
+<plane>
+	<name>AZ12</name>
+	<capacity>10</capacity>
+	<carryingcapacity>5000</carryingcapacity>
+	<flightrange>10050</flightrange>
+</plane>
+<plane>
+	<name>SU12</name>
+	<capacity>10</capacity>
+	<carryingcapacity>10000</carryingcapacity>
+	<flightrange>5000</flightrange>
+</plane>
+<plane>
+	<name>AirBerlin2</name>
+	<capacity>200</capacity>
+	<carryingcapacity>5000</carryingcapacity>
+	<flightrange>10050</flightrange>
+</plane>
+<plane>
+	<name>FinnAir22</name>
+	<capacity>300</capacity>
+	<carryingcapacity>10000</carryingcapacity>
+	<flightrange>12000</flightrange>
+</plane>
+</company>
