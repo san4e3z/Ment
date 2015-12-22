@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SuiteForCalculator" parallel="tests" thread-count="5">
+	<test name="Check div actions">
+		<groups>
+			<run>
+				<include name="div"></include>
+			</run>
+		</groups>
+		<classes>
+			<class name="com.epam.tat.module4.tests.MultAndDivTest"></class>
+		</classes>
+	</test>	
+	<test name="Check mult actions">
+		<groups>
+			<run>
+				<include name="mult"></include>
+			</run>
+		</groups>
+		<classes>
+			<class name="com.epam.tat.module4.tests.MultAndDivTest"></class>
+		</classes>
+	</test>	
+	<test name="Check sum and sub actions (only double)">
+		<classes>
+			<class name="com.epam.tat.module4.tests.SumAndSubTest">
+				<methods>
+					<include name="oneValuePlusAnotherDouble"></include>
+					<include name="oneValueMinusAnotherDouble"></include>
+					<exclude name="oneValuePlusAnotherLong"></exclude>
+					<exclude name="oneValueMinusAnotherLong"></exclude>
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test name="Check the operation of taking a degree">
+		<classes>
+			<class name="com.epam.tat.module4.tests.PowerTest"></class>
+		</classes>
+	</test>
+	<test name="Check trigonometry functions">
+		<classes>
+			<class name="com.epam.tat.module4.tests.TrigonometryTest"></class>
+		</classes>
+	</test>
+	<test name="Check positive and negative assessments">
+    	<classes>
+      		<class name="com.epam.tat.module4.tests.PositiveNegativeTestFactory"/>
+   		</classes>
+    </test>
+
+
+</suite>
