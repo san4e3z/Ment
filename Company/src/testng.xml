@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SuiteForProject" parallel="none">
+  
+    <test name="Check Plane class">
+    	<classes>
+      		<class name="com.github.tests.PlaneTest"/>
+   		</classes>
+    </test>
+    <test name="Check methods works with storage">
+    	<classes>
+      		<class name="com.github.tests.WorkWithStorageTest"/>
+   		</classes>
+    </test>  
+    <test name="Check exceptions">
+    	<classes>
+      		<class name="com.github.tests.ExceptionsTests"/>
+   		</classes>
+    </test>   
+    <test name="Check methods from MyAirCompany">
+    	<classes>
+      		<class name="com.github.tests.AnotherMethodsTest"/>
+   		</classes>
+    </test>
+</suite>

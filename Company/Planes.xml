@@ -24,4 +24,10 @@
 	<carryingcapacity>10000</carryingcapacity>
 	<flightrange>12000</flightrange>
 </plane>
+<plane>
+	<name>TestCompany27</name>
+	<capacity>10</capacity>
+	<carryingcapacity>10000</carryingcapacity>
+	<flightrange>4000</flightrange>
+</plane>
 </company>

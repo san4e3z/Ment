@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
@@ -66,7 +67,7 @@ public class MyAirCompany implements AirCompany  {
 	public void createAirCompany (int size, String name) {
 		this.numberOfPlanes = size;
 		this.nameOfCompany = name;
-		fillAirCompany();	
+		fillAirCompany();
 	}
 		
 	public void printPlaneInfo() throws PrintListOfPlanesException {
@@ -104,7 +105,7 @@ public class MyAirCompany implements AirCompany  {
 		int avegage = 0;
 		//built-in exception
 		try {
-			avegage = totalCapacity()/numberOfPlanes;		
+			avegage = totalCapacity()/planes.size();		
 		} catch (ArithmeticException ex5) {
 			System.out.println("division by zero");
 		}
@@ -159,7 +160,7 @@ public class MyAirCompany implements AirCompany  {
 	}
 	
 	@Override
-	public void findPlane (int minFlightRange, int maxFlightRange) throws FindByFlightRangeException {
+	public List<Plane> findPlane (int minFlightRange, int maxFlightRange) throws FindByFlightRangeException {
 		ArrayList<Plane> result = new ArrayList<Plane>();   
         for(Plane plane : planes){
         	if (plane.getFlightRange() >=  minFlightRange && plane.getFlightRange() <= maxFlightRange) {
@@ -170,7 +171,8 @@ public class MyAirCompany implements AirCompany  {
         	planesInfoPrint(result);
         } else {
         	throw new FindByFlightRangeException(minFlightRange, maxFlightRange);
-        }    
+        }
+        return result;
 	}
 
 	@Override
